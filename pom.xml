@@ -14,7 +14,7 @@
     <packaging>jar</packaging>
 
     <dependencies>
-            <!-- KumuluzEE core and desired components -->
+        <!-- KumuluzEE core and desired components -->
         <dependency>
             <groupId>com.kumuluz.ee</groupId>
             <artifactId>kumuluzee-core</artifactId>
