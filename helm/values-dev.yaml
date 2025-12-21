@@ -1,0 +1,14 @@
+replicaCount: 1
+
+image:
+  repository: activity-service
+  tag: dev-latest
+  pullPolicy: Never
+
+service:
+  clusterIP:
+    port: 8085
+
+  nodePort:
+    port: 8085
+    nodePort: 30085
