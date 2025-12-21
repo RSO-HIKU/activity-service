@@ -1,0 +1,44 @@
+apiVersion: skaffold/v4beta8
+kind: Config
+metadata:
+  name: activity-service
+build:
+  local:
+    push: false
+  tagPolicy:
+    sha256: {}
+  artifacts:
+    - image: activity-service
+      context: .
+      docker:
+        dockerfile: Dockerfile
+      # hooks:
+      #   before:
+      #     - command: ["cmd", "/c", "mvn", "clean", "package", "-DskipTests"]
+      # sync:
+      #   manual:
+      #     - src: "src/main/resources/config.yaml"
+      #       dest: "/app/config.yaml"
+deploy:
+  helm:
+    releases:
+      - name: activity-service
+        chartPath: helm
+        namespace: dev
+        createNamespace: true
+        valuesFiles:
+          - helm/values-dev.yaml
+        setValueTemplates:
+          image.repository: "{{.IMAGE_REPO_activity_service}}"
+          image.tag: "{{.IMAGE_TAG_activity_service}}"
+        wait: true
+portForward:
+  - resourceType: service
+    resourceName: activity-service-nodeport
+    namespace: dev
+    port: 8085
+    localPort: 8085
+profiles:
+  - name: minikube
+    activation:
+      - kubeContext: minikube
