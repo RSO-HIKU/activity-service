@@ -12,3 +12,9 @@ service:
   nodePort:
     port: 8085
     nodePort: 30085
+
+flyway:
+  enabled: true
+  image:
+    repository: activity-service-migrator
+    tag: "dev"
