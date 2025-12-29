@@ -30,4 +30,10 @@ spec:
                 secretKeyRef:
                   name: activity-service-db
                   key: DB_PASS
+            - name: FLYWAY_SCHEMAS
+              value: activity_service
+            - name: FLYWAY_DEFAULT_SCHEMA
+              value: activity_service
+            - name: FLYWAY_CREATE_SCHEMAS
+              value: "true"
           args: ["migrate"] 
