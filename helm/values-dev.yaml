@@ -5,11 +5,22 @@ image:
   tag: dev-latest
   pullPolicy: Never
 
+database:
+  enabled: true
+  host: postgres.database.svc.cluster.local
+  port: "5432"
+  name: hikudb
+  schema: activity_service
+
+azure:
+  enabled: false
+
 service:
   clusterIP:
     port: 8085
 
   nodePort:
+    enabled: true
     port: 8085
     nodePort: 30085
 
