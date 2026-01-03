@@ -30,6 +30,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.clusterIP.port }}
+
           {{- if .Values.azure.enabled }}
           volumeMounts:
             - name: secrets-store
@@ -46,13 +47,19 @@ spec:
               export KUMULUZEE_DATASOURCES_DEFAULT_PASSWORD=$(cat /mnt/secrets-store/activity-db-password)
               export DB_HOST=$(cat /mnt/secrets-store/pg-host)
               export KUMULUZEE_DATASOURCES_DEFAULT_CONNECTIONURL="jdbc:postgresql://${DB_HOST}:{{ .Values.azure.port }}/{{ .Values.azure.database }}?sslmode={{ .Values.azure.sslmode }}"
-              
+
+              # JWT Auth (Keycloak / OIDC)
+              export KUMULUZEE_JWT_AUTH_ISSUER="{{ .Values.jwtAuth.issuer }}"
+              export KUMULUZEE_JWT_AUTH_JWKS_URI="{{ .Values.jwtAuth.jwksUri }}"
+
               # Run the Java application
               exec java -jar /app/activity-service.jar
           {{- end }}
+
           env:
             - name: KUMULUZEE_ENV_NAME
               value: {{ .Values.environment | default "dev" | quote }}
+
             {{- if .Values.database.enabled }}
             # Dev: use Kubernetes secret with KumuluzEE env var names
             - name: KUMULUZEE_DATASOURCES_DEFAULT_CONNECTIONURL
@@ -67,7 +74,14 @@ spec:
                 secretKeyRef:
                   name: {{ include "activity-service.fullname" . }}-db
                   key: DB_PASS
+
+            # JWT Auth (Keycloak / OIDC)
+            - name: KUMULUZEE_JWT_AUTH_ISSUER
+              value: {{ .Values.jwtAuth.issuer | quote }}
+            - name: KUMULUZEE_JWT_AUTH_JWKS_URI
+              value: {{ .Values.jwtAuth.jwksUri | quote }}
             {{- end }}
+
           {{- with .Values.resources }}
           resources:
             {{- toYaml . | nindent 12 }}

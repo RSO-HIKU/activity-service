@@ -28,3 +28,7 @@ flyway:
   image:
     repository: activity-service-migrator
     tag: "dev"
+
+jwtAuth:
+  issuer: "http://localhost:8080/auth/realms/hiku-dev"
+  jwksUri: "http://keycloak.keycloak.svc.cluster.local:8080/auth/realms/hiku-dev/protocol/openid-connect/certs"
