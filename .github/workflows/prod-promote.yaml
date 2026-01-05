@@ -10,7 +10,6 @@ on:
 jobs:
   promote_and_update_gitops:
     runs-on: ubuntu-latest
-    environment: prod
 
     steps:
       - name: Set tag

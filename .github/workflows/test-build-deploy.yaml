@@ -7,7 +7,6 @@ on:
 jobs:
   build_push_update_gitops:
     runs-on: ubuntu-latest
-    environment: test
 
     steps:
       - name: Checkout activity-service repo
