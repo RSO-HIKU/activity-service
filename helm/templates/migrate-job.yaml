@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "activity-service.labels" . | nindent 4 }}
   annotations:
-    {{- if .Values.azure.enabled }}
+    {{- if .Values.gitops.enabled }}
     argocd.argoproj.io/sync-wave: "1"
     argocd.argoproj.io/sync-options: Replace=true
     {{- else }}
