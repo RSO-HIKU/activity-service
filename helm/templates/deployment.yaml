@@ -44,7 +44,7 @@ spec:
             - sh
             - -c
             - |
-              set -euo pipefail
+              set -eu
 
               # Read secrets from CSI mounted files
               export KUMULUZEE_DATASOURCES_DEFAULT_USERNAME=$(cat /mnt/secrets-store/activity-db-user)
