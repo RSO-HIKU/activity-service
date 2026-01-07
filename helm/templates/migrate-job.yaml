@@ -43,7 +43,7 @@ spec:
           command: ["sh", "-c"]
           args:
             - |
-              set -euo pipefail
+              set -eu
               # Read secrets from CSI mounted files
               export FLYWAY_USER=$(cat /mnt/secrets-store/activity-db-user)
               export FLYWAY_PASSWORD=$(cat /mnt/secrets-store/activity-db-password)
